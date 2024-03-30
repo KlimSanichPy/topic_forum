@@ -13,11 +13,11 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @GetMapping
+    @GetMapping("")
     public String startPage() {
         return "welcomePage";
     }
-
+/*
     @GetMapping("/topics_page_{pageNumber}")
     public String showTopicsByPage(@PathVariable int pageNumber, Model model) {
         int pageSize = 6;
@@ -27,7 +27,7 @@ public class TopicController {
 
         return "topics";
     }
-
+*/
 
 
 
