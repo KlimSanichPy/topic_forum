@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Topics</title>
+    <script type="text/javascript">
+        function goToPage(pageNumber) {
+            window.location.href = "/topics_page_" + pageNumber;
+        }
+    </script>
+</head>
+<body>
+<h1>Topics</h1>
+<ul>
+    <!-- Отображение списка топиков -->
+    <li th:each="topic : ${topics}">
+        <a th:href="@{'/topic/' + ${topic.id}}"><span th:text="${topic.title}"></span></a>
+    </li>
+</ul>
+
+<!-- Пагинация -->
+<div>
+    <ul>
+        <li th:if="${pageNumber > 1}">
+            <a href="#" onclick="goToPage(${pageNumber - 1})">Previous</a>
+        </li>
+        <li th:if="${topics.size() == pageSize}">
+            <a href="#" onclick="goToPage(${pageNumber + 1})">Next</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

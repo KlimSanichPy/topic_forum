@@ -1,6 +1,6 @@
 package com.example.topic_forum.models;
-
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,15 +11,22 @@ public class Topic {
 
     private String title;
 
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Message> messages;
 
-    public Topic() {}
+    public Topic() {
+        this.messages = new ArrayList<>();
+    }
 
     public Topic(String title, Message firstMessage) {
         this.title = title;
-        this.messages = List.of(firstMessage);
-        firstMessage.setTopic(this);
+        this.messages = new ArrayList<>();
+        addMessage(firstMessage);
+    }
+
+    public void addMessage(Message message) {
+        message.setTopic(this);
+        messages.add(message);
     }
 
     public Long getId() {

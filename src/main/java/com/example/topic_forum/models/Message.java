@@ -10,6 +10,7 @@ public class Message {
     private Long id;
 
     private String authorName;
+    @Column(length = 1024)
     private String text;
     private Date createdAt;
 

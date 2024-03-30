@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TopicService {
 
+    @Autowired
     private final TopicRepository topicRepository;
 
     @Autowired
@@ -26,6 +29,22 @@ public class TopicService {
 
     public Topic createNewTopic(String title, Message firstMessage) {
         Topic topic = new Topic(title, firstMessage);
+
         return topicRepository.save(topic);
+    }
+
+    public Topic getTopicById(Long id) {
+        Optional<Topic> topicOptional = topicRepository.findById(id);
+        return topicOptional.orElse(null);
+    }
+
+    public void addMessageToTopic(Long topicId, Message message) {
+        Topic topic = topicRepository.findById(topicId).orElse(null);
+        if (topic != null) {
+            topic.addMessage(message);
+            topicRepository.save(topic);
+        } else {
+            throw new RuntimeException("Topic not found with ID: " + topicId);
+        }
     }
 }
