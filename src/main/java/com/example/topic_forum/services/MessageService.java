@@ -19,4 +19,15 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
+    public Message editMessage(Long messageId, String newText) {
+        Message existingMessage = messageRepository.findById(messageId).orElse(null);
+        if (existingMessage != null) {
+            existingMessage.setText(newText);
+            return messageRepository.save(existingMessage);
+        }
+        return null; // Если сообщение не найдено, возвращаем null или можно выбросить исключение
+    }
+
+    public void deleteMessageById(Long messageId) { messageRepository.deleteById(messageId);}
+
 }

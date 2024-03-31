@@ -19,6 +19,10 @@ public class TopicController {
     @Autowired
     private MessageService messageService;
 
+    @GetMapping("/")
+    public String authorizationPage(Model model) {
+        return "login";
+    }
 
     @GetMapping("/topic/page_{pageNumber}")
     public String showTopicsByPage(@PathVariable int pageNumber, Model model) {
