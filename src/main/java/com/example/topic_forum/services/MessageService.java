@@ -1,21 +1,29 @@
 package com.example.topic_forum.services;
 
 import com.example.topic_forum.models.Message;
+import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.repositoies.MessageRepository;
+import com.example.topic_forum.repositoies.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageService {
 
     @Autowired
-    private final MessageRepository messageRepository;
+    private MessageRepository messageRepository;
+    @Autowired
+    private TopicRepository topicRepository;
 
-    public MessageService(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
 
-    public Message saveMessage(Message message) {
+    public Message saveMessage(String messageText, UserDetails userDetails, Topic topic) {
+        Message message = new Message();
+
+        message.setText(messageText);
+        message.setTopic(topic);
+        message.setAuthorName(userDetails.getUsername());
+
         return messageRepository.save(message);
     }
 
@@ -25,7 +33,17 @@ public class MessageService {
             existingMessage.setText(newText);
             return messageRepository.save(existingMessage);
         }
-        return null; // Если сообщение не найдено, возвращаем null или можно выбросить исключение
+        return null;
+    }
+
+    public void addMessageToTopic(Long topicId, String messageText, UserDetails userDetails) {
+
+        Message message = new Message();
+        message.setText(messageText);
+        message.setTopic(topicRepository.getReferenceById(topicId));
+        message.setAuthorName(userDetails.getUsername());
+
+        messageRepository.save(message);
     }
 
     public void deleteMessageById(Long messageId) { messageRepository.deleteById(messageId);}

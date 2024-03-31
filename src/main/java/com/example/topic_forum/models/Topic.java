@@ -18,16 +18,11 @@ public class Topic {
         this.messages = new ArrayList<>();
     }
 
-    public Topic(String title, Message firstMessage) {
+    public Topic(String title) {
         this.title = title;
         this.messages = new ArrayList<>();
-        addMessage(firstMessage);
     }
 
-    public void addMessage(Message message) {
-        message.setTopic(this);
-        messages.add(message);
-    }
 
     public Long getId() {
         return id;

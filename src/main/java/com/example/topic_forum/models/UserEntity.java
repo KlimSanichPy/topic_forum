@@ -4,20 +4,19 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+
 @Entity
-@Table(name = "usr")
-public class User {
+@Table(name = "users")
+public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
     private String password;
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated (EnumType.STRING)
-    private Set<Role> roles;
+    private String roles;
 
     public Long getId() {
         return id;
@@ -51,11 +50,11 @@ public class User {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
+    public String getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(String roles) {
         this.roles = roles;
     }
 }

@@ -8,7 +8,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private boolean isFirstMessage;
     private String authorName;
     @Column(length = 1024)
     private String text;
@@ -22,7 +22,7 @@ public class Message {
         this.createdAt = new Date();
     }
 
-    public Message(String authorName, String text) {
+    public Message(String text, String authorName) {
         this.authorName = authorName;
         this.text = text;
         this.createdAt = new Date();
@@ -43,6 +43,7 @@ public class Message {
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }
+
 
     public String getText() {
         return text;
@@ -66,5 +67,13 @@ public class Message {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    public boolean isFirstMessage() {
+        return isFirstMessage;
+    }
+
+    public void setFirstMessage(boolean firstMessage) {
+        isFirstMessage = firstMessage;
     }
 }

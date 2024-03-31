@@ -5,6 +5,8 @@ import com.example.topic_forum.repositoies.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
@@ -15,20 +17,19 @@ import java.util.Optional;
 public class TopicService {
 
     @Autowired
-    private final TopicRepository topicRepository;
+    private TopicRepository topicRepository;
 
-    @Autowired
-    public TopicService(TopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
-    }
+
 
     public List<Topic> getTopicsByPage(int pageNumber, int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return topicRepository.findAll(pageable).getContent();
     }
 
-    public Topic createNewTopic(String title, Message firstMessage) {
-        Topic topic = new Topic(title, firstMessage);
+
+    public Topic createNewTopic(String title) {
+
+        Topic topic = new Topic(title);
 
         return topicRepository.save(topic);
     }
@@ -38,13 +39,4 @@ public class TopicService {
         return topicOptional.orElse(null);
     }
 
-    public void addMessageToTopic(Long topicId, Message message) {
-        Topic topic = topicRepository.findById(topicId).orElse(null);
-        if (topic != null) {
-            topic.addMessage(message);
-            topicRepository.save(topic);
-        } else {
-            throw new RuntimeException("Topic not found with ID: " + topicId);
-        }
-    }
 }

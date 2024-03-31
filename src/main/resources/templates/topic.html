@@ -15,5 +15,11 @@
     <p th:text="${message.text}"></p>
   </li>
 </ul>
+
+<form th:action="@{/topics/{topicId}/addMessage(topicId=${topic.id})}" method="post">
+  <textarea name="messageText" placeholder="Введите текст сообщения"></textarea>
+  <input type="submit" value="Добавить сообщение"/>
+</form>
+
 </body>
 </html>
