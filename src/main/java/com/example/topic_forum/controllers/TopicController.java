@@ -1,4 +1,5 @@
 package com.example.topic_forum.controllers;
+
 import com.example.topic_forum.models.Message;
 import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.models.UserEntity;
@@ -25,28 +26,7 @@ public class TopicController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("/")
-    public String authorizationPage(Model model) {
-        return "redirect:/topic/page_1";
-    }
 
-
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new UserEntity());
-        return "registration";
-    }
-
-    @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String password) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(username);
-        userEntity.setPassword(password);
-
-        userService.registerUser(userEntity);
-
-        return "redirect:/login";
-    }
 
     @GetMapping("/topic/page_{pageNumber}")
     public String showTopicsByPage(@PathVariable int pageNumber, Model model) {
