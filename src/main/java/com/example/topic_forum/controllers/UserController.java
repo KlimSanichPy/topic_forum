@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -21,22 +22,23 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login")
-    public String authorizationPage(Model model) {
-        return "login";
-    }
 
-
-    @GetMapping("/registr")
+    @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         return "registration";
     }
 
-    @PostMapping("/registr")
-    public String registerUser(UserEntity userEntity, Model model) {
-
-        userService.registerUser(userEntity);
-
-        return "redirect:/login";
+    @PostMapping("/registration")
+    public String registerUser(@RequestParam String username, @RequestParam String password, Model model) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setPassword(password);
+        userEntity.setUsername(username);
+        boolean registrationSuccess = userService.registerUser(userEntity);
+        if (registrationSuccess) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("errorMessage", "User with name " + userEntity.getUsername() + " already exists");
+            return "registration";
+        }
     }
 }

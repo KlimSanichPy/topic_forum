@@ -39,7 +39,6 @@ public class TestDataGenerator {
         UserEntity user1 = new UserEntity();
         user1.setUsername("sa");
         user1.setPassword("sa");
-        user1.setRoles(Set.of(Role.USER));
         userService.registerUser(user1);
 
         UserEntity user2 = new UserEntity();

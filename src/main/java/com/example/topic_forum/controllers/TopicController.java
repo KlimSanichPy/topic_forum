@@ -74,7 +74,7 @@ public class TopicController {
             return "redirect:/";
         }
         model.addAttribute("topic", topic);
-        model.addAttribute("messages", topic.getMessages()); // Добавление списка сообщений топика в модель
+        model.addAttribute("messages", topic.getMessages());
         return "topic";
     }
 
