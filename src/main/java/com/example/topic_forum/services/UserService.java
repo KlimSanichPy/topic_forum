@@ -7,6 +7,7 @@ import com.example.topic_forum.repositoies.UserRepository;
 import java.util.Optional;
 import java.util.Set;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,14 +23,20 @@ public class UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public boolean registerUser(UserEntity userEntity) {
-        userEntity.setRoles(Set.of(Role.USER));
-        if (userRepository.findByUsername(userEntity.getUsername()) != null) return false;
-        userEntity.setActive(true);
-        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        userRepository.save(userEntity);
-
-        return true;
+        try {
+            userEntity.setRoles(Set.of(Role.USER));
+            if (userRepository.findByUsername(userEntity.getUsername()) != null) {
+                return false;
+            }
+            userEntity.setActive(true);
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+            userRepository.save(userEntity);
+            return true;
+        } catch (Exception e) {
+            throw new UserServiceException("Error occurred while registering user", e);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.topic_forum.services;
 import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.models.Message;
 import com.example.topic_forum.repositoies.TopicRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,24 +20,34 @@ public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
 
-
-
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<Topic> getTopicsByPage(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
-        return topicRepository.findAll(pageable).getContent();
+        try {
+            Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+            return topicRepository.findAll(pageable).getContent();
+        } catch (Exception e) {
+            throw new TopicServiceException("Error occurred while fetching topics by page", e);
+        }
     }
 
-
+    @Transactional
     public Topic createNewTopic(String title) {
-
-        Topic topic = new Topic(title);
-
-        return topicRepository.save(topic);
+        try {
+            Topic topic = new Topic(title);
+            return topicRepository.save(topic);
+        } catch (Exception e) {
+            throw new TopicServiceException("Error occurred while creating a new topic", e);
+        }
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public Topic getTopicById(Long id) {
-        Optional<Topic> topicOptional = topicRepository.findById(id);
-        return topicOptional.orElse(null);
+        try {
+            Optional<Topic> topicOptional = topicRepository.findById(id);
+            return topicOptional.orElse(null);
+        } catch (Exception e) {
+            throw new TopicServiceException("Error occurred while fetching topic by ID", e);
+        }
     }
 
 }
