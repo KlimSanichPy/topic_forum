@@ -1,6 +1,7 @@
 package com.example.topic_forum.controllers;
 
 import com.example.topic_forum.models.Message;
+import com.example.topic_forum.models.Role;
 import com.example.topic_forum.services.MessageService;
 import com.example.topic_forum.services.MessageServiceException;
 import com.example.topic_forum.services.TopicService;
@@ -56,8 +57,12 @@ public class MessageController {
                                   @AuthenticationPrincipal UserDetails userDetails) {
         try {
             Message message = messageService.getMessageById(messageId);
-            if (!message.getAuthorName().equals(userDetails.getUsername()))
+            if (!message.getAuthorName().equals(userDetails.getUsername())) {
+                if (userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+                    return "redirect:/admin/topic/{topicId}/deleteMessage/{messageId}";
+                }
                 return "redirect:/topic/{topicId}";
+            }
             model.addAttribute("message", message);
             return "editMessage";
         }

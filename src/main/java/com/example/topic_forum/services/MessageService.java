@@ -4,7 +4,6 @@ import com.example.topic_forum.models.Message;
 import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.repositoies.MessageRepository;
 import com.example.topic_forum.repositoies.TopicRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

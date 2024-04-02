@@ -22,6 +22,11 @@ public class TopicController {
     private MessageService messageService;
 
 
+    @GetMapping("/")
+    public String startPage() {
+        return "redirect:/page_1";
+    }
+
 
     @GetMapping("/page_{pageNumber}")
     public String showTopicsByPage(@PathVariable int pageNumber, Model model, @AuthenticationPrincipal UserDetails userDetails) {

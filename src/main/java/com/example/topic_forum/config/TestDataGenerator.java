@@ -1,10 +1,8 @@
 package com.example.topic_forum.config;
 
-import com.example.topic_forum.models.Message;
 import com.example.topic_forum.models.Role;
 import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.models.UserEntity;
-import com.example.topic_forum.repositoies.UserRepository;
 import com.example.topic_forum.services.CustomUserDetailsService;
 import com.example.topic_forum.services.MessageService;
 import com.example.topic_forum.services.TopicService;
@@ -13,11 +11,10 @@ import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import jakarta.annotation.PostConstruct;
 
-import java.util.Collections;
 import java.util.Set;
+
 
 @Component
 public class TestDataGenerator {
@@ -39,7 +36,7 @@ public class TestDataGenerator {
         UserEntity user1 = new UserEntity();
         user1.setUsername("sa");
         user1.setPassword("sa");
-        userService.registerUser(user1);
+        userService.registerAdmin(user1);
 
         UserEntity user2 = new UserEntity();
         user2.setUsername("user2");

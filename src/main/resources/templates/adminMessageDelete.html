@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Message</title>
+</head>
+<body>
+<h2>Delete Message</h2>
+<h2>Delete Message</h2>
+<form th:action="@{/admin/topic/{topicId}/deleteMessage/{messageId}(topicId=${topicId}, messageId=${messageId})}" method="post">
+  <input type="hidden" name="topicId" th:value="${topicId}" />
+  <input type="hidden" name="messageId" th:value="${messageId}" />
+  <p>Topic ID: <span th:text="${topicId}"></span></p>
+  <p>Message ID: <span th:text="${messageId}"></span></p>
+  <p>Topic Name: <span th:text="${topicName}"></span></p>
+  <p>Author Name: <span th:text="${authorName}"></span></p>
+  <p>Message Text: <span th:text="${messageText}"></span></p>
+  <p>Are you sure you want to delete this message?</p>
+  <button type="submit">Delete Message</button>
+</form>
+</body>
+</html>

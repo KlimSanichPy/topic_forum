@@ -16,10 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public String startPage(Model model) {
-        return "redirect:/login";
-    }
 
 
     @GetMapping("/registration")
