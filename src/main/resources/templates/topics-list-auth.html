@@ -5,7 +5,7 @@
     <title>Topics</title>
     <script type="text/javascript">
         function goToPage(pageNumber) {
-            window.location.href = "/topics_page_" + pageNumber;
+            window.location.href = "/topics/page_" + pageNumber;
         }
     </script>
 </head>
@@ -17,21 +17,21 @@
 </form>
 
 <ul>
-    <!-- Отображение списка топиков -->
     <li th:each="topic : ${topics}">
         <a th:href="@{'/topic/' + ${topic.id}}"><span th:text="${topic.title}"></span></a>
     </li>
 </ul>
 
-<!-- Пагинация -->
+<form th:action="@{/topic/add}" method="get">
+    <input type="submit" value="Create New Topic"/>
+</form>
+
 <div>
     <ul>
         <li th:if="${pageNumber > 1}">
-            <a href="#" onclick="goToPage(${pageNumber - 1})">Previous</a>
+            <a th:href="@{'/topic/page_' + ${pageNumber - 1}}">Previous</a>
         </li>
-        <li th:if="${topics.size() == pageSize}">
-            <a href="#" onclick="goToPage(${pageNumber + 1})">Next</a>
-        </li>
+            <a th:href="@{'/topic/page_' + ${pageNumber + 1}}">Next</a>
     </ul>
 </div>
 </body>

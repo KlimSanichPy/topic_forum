@@ -63,11 +63,11 @@ public class TestDataGenerator {
             for (int j = 0; j < 5; j++) {
                 String additionalMessageText = faker.lorem().sentence();
                 if (i % 3 == 0) {
-                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails1);
+                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails1.getUsername());
                 } else if (i % 3 == 1) {
-                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails2);
+                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails2.getUsername());
                 } else {
-                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails3);
+                    messageService.addMessageToTopic(topic.getId(), additionalMessageText, userDetails3.getUsername());
                 }
             }
         }

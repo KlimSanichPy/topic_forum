@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование сообщения</title>
+</head>
+<body>
+<h1>Редактирование сообщения</h1>
+
+<form th:action="@{/topic/{topicId}/editMessage/{messageId}(topicId=${topicId}, messageId=${message.id})}" method="post">
+  <textarea name="messageText" th:text="${message.text}"></textarea>
+  <input type="submit" value="Сохранить изменения"/>
+</form>
+
+<form th:action="@{/topic/{topicId}/deleteMessage/{messageId}(topicId=${topicId}, messageId=${message.id})}" method="post">
+  <input type="submit" value="Удалить"/>
+</form>
+</body>
+</html>

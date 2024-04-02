@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Добавить сообщение в топик</title>
+</head>
+<body>
+<h1>Добавить сообщение в топик</h1>
+<form th:action="@{'/topic/' + ${topicId} + '/addMessage'}" method="post">
+  <textarea name="messageText" placeholder="Введите текст сообщения" required></textarea>
+  <br>
+  <button type="submit">Сохранить сообщение</button>
+</form>
+</body>
+</html>

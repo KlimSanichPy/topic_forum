@@ -13,11 +13,11 @@
 <ul>
   <li th:each="message : ${messages}">
     <p th:text="${message.text}"></p>
+    <a th:href="@{'/topic/' + ${topic.id} + '/editMessage/' + ${message.id}}">Edit</a>
   </li>
 </ul>
 
-<form th:action="@{/topics/{topicId}/addMessage(topicId=${topic.id})}" method="post">
-  <textarea name="messageText" placeholder="Введите текст сообщения"></textarea>
+<form th:action="@{/topic/{topicId}/addMessage(topicId=${topic.id})}" method="get">
   <input type="submit" value="Добавить сообщение"/>
 </form>
 

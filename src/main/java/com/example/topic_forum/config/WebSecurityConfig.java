@@ -33,13 +33,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeRequests((requests) -> requests
-                        .requestMatchers("/login","/registration","/").permitAll()
-                        .requestMatchers("/topic/**").authenticated())
+                        .requestMatchers("/login","/registration","/", "/topic/page_{pageNumber}","/topic/{id}").permitAll()
+                        .requestMatchers("/topic/**", "topic/add").authenticated())
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/login")
                         .defaultSuccessUrl("/topic/page_1", true)
                         .permitAll())
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout
+                        .permitAll());
 
 
         return http.build();

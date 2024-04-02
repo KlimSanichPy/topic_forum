@@ -4,9 +4,12 @@ import com.example.topic_forum.models.Message;
 import com.example.topic_forum.models.Topic;
 import com.example.topic_forum.repositoies.MessageRepository;
 import com.example.topic_forum.repositoies.TopicRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -36,16 +39,26 @@ public class MessageService {
         return null;
     }
 
-    public void addMessageToTopic(Long topicId, String messageText, UserDetails userDetails) {
+    public void addMessageToTopic(Long topicId, String messageText, String userName) {
 
         Message message = new Message();
         message.setText(messageText);
         message.setTopic(topicRepository.getReferenceById(topicId));
-        message.setAuthorName(userDetails.getUsername());
+        message.setAuthorName(userName);
 
         messageRepository.save(message);
     }
 
-    public void deleteMessageById(Long messageId) { messageRepository.deleteById(messageId);}
+    @Transactional
+    public void deleteMessageById(Long messageId) {
+        Message message = getMessageById(messageId);
+        message.getTopic().getMessages().remove(message);
+        messageRepository.deleteById(messageId);
+    }
+
+    public Message getMessageById(Long id) {
+        Optional<Message> MessageOptional = messageRepository.findById(id);
+        return MessageOptional.orElse(null);
+    }
 
 }

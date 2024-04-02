@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Topics</title>
+  <script type="text/javascript">
+        function goToPage(pageNumber) {
+            window.location.href = "/topics/page_" + pageNumber;
+        }
+    </script>
+</head>
+<body>
+<h0>Topics</h0>
+<h1>Welcome Guest!</h1>
+
+<ul>
+  <li th:each="topic : ${topics}">
+    <a th:href="@{'/topic/' + ${topic.id}}"><span th:text="${topic.title}"></span></a>
+  </li>
+</ul>
+
+<div>
+  <ul>
+    <li th:if="${pageNumber > 1}">
+      <a href="#" onclick="goToPage(${pageNumber - 1})">Previous</a>
+    </li>
+    <li th:if="${topics.size() == pageSize}">
+      <a href="#" onclick="goToPage(${pageNumber + 1})">Next</a>
+    </li>
+  </ul>
+</div>
+
+<div>
+  <form th:action="@{/registration}" method="get">
+    <input type="submit" value="registration"/>
+  </form>
+</div>
+<div>
+  <form th:action="@{/login}" method="get">
+    <input type="submit" value="login"/>
+  </form>
+</div>
+</body>
+</html>

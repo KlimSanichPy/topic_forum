@@ -17,6 +17,7 @@ import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/topic")
 public class TopicController {
     @Autowired
     private UserService userService;
@@ -28,24 +29,29 @@ public class TopicController {
 
 
 
-    @GetMapping("/topic/page_{pageNumber}")
-    public String showTopicsByPage(@PathVariable int pageNumber, Model model) {
+    @GetMapping("/page_{pageNumber}")
+    public String showTopicsByPage(@PathVariable int pageNumber, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         int pageSize = 6;
 
         List<Topic> topics = topicService.getTopicsByPage(pageNumber, pageSize);
         model.addAttribute("topics", topics);
 
-        return "topics-list";
+        if (userDetails == null)
+                return "topics-list-nauth";
+        else
+            return "topics-list-auth";
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/topic/add")
-    public String showCreateTopicForm(Model model) {
+
+    @GetMapping("/add")
+    public String showCreateTopicForm(Model model,@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null)
+            return "login";
         return "topic-add";
     }
 
 
-    @PostMapping("/topic/add")
+    @PostMapping("/add")
     public String createTopic(@RequestParam String title, @RequestParam String messageText, @AuthenticationPrincipal UserDetails userDetails) {
 
         Topic topic = topicService.createNewTopic(title);
@@ -56,7 +62,7 @@ public class TopicController {
     }
 
 
-    @GetMapping("/topic/{topicId}")
+    @GetMapping("/{topicId}")
     public String showTopic(@PathVariable Long topicId,  Model model) {
         Topic topic = topicService.getTopicById(topicId);
         if (topic == null) {
@@ -67,15 +73,6 @@ public class TopicController {
         return "topic";
     }
 
-    @GetMapping("/topic/{topicId}/message-edit")
-    public String messageEdit(@PathVariable Long topicId,  Model model) {
-        Topic topic = topicService.getTopicById(topicId);
-        if (topic == null) {
-            return "redirect:/";
-        }
-        model.addAttribute("topic", topic);
-        model.addAttribute("messages", topic.getMessages());
-        return "topic";
-    }
+
 
 }

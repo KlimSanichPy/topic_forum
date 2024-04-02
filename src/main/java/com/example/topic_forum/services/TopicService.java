@@ -22,7 +22,7 @@ public class TopicService {
 
 
     public List<Topic> getTopicsByPage(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
         return topicRepository.findAll(pageable).getContent();
     }
 
