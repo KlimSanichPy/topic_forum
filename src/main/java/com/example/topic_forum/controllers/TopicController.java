@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/topic")
+@RequestMapping("")
 public class TopicController {
     @Autowired
     private UserService userService;
@@ -24,11 +24,11 @@ public class TopicController {
 
     @GetMapping("/")
     public String startPage() {
-        return "redirect:/page_1";
+        return "redirect:/topic/page_1";
     }
 
 
-    @GetMapping("/page_{pageNumber}")
+    @GetMapping("/topic/page_{pageNumber}")
     public String showTopicsByPage(@PathVariable int pageNumber, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             int pageSize = 6;
@@ -48,7 +48,7 @@ public class TopicController {
     }
 
 
-    @GetMapping("/add")
+    @GetMapping("/topic/add")
     public String showCreateTopicForm(Model model,@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null)
             return "login";
@@ -56,7 +56,7 @@ public class TopicController {
     }
 
 
-    @PostMapping("/add")
+    @PostMapping("/topic/add")
     public String createTopic(@RequestParam String title,
                               @RequestParam String messageText,
                               @AuthenticationPrincipal UserDetails userDetails,
@@ -75,7 +75,7 @@ public class TopicController {
     }
 
 
-    @GetMapping("/{topicId}")
+    @GetMapping("/topic/{topicId}")
     public String showTopic(@PathVariable Long topicId,  Model model) {
         try {
             Topic topic = topicService.getTopicById(topicId);
